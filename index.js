@@ -7,6 +7,7 @@ const http = require("http");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
+const { instrument } = require("@socket.io/admin-ui");
 
 const PORT = process.env.PORT || 8080;
 
@@ -36,6 +37,10 @@ io.on("connection", (socket) => {
   socket.on('comment', (msg) => {
         io.emit('comment', msg);
     })
+});
+
+instrument(io, {
+  auth: false,
 });
 
 server.listen(PORT, (err) => {
