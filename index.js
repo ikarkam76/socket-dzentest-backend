@@ -4,9 +4,7 @@ const app = express();
 const cors = require("cors");
 const path = require("path");
 const http = require("http");
-const server = http.createServer(app);
 const { Server } = require("socket.io");
-const io = new Server(server);
 const { instrument } = require("@socket.io/admin-ui");
 
 const PORT = process.env.PORT || 8080;
@@ -21,6 +19,10 @@ app.use(
     optionsSuccessStatus: 204
   })
 );
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
 
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -32,6 +34,9 @@ app.post("/", (req, res) => {
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+
+const server = http.createServer(app);
+const io = new Server(server);
 
 io.on("connection", (socket) => {
   socket.on('comment', (msg) => {
