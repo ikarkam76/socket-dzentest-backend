@@ -40,11 +40,7 @@ io.on("connection", (socket) => {
 });
 
 instrument(io, {
-  auth: {
-    type: "basic",
-    username: "admin",
-    password: 'qwerty123'
-  },
+  auth: false,
 });
 
 server.listen(PORT, (err) => {
