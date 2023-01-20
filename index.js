@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require("express");
 const app = express();
+const cors = require("cors");
 const http = require("http");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
@@ -9,6 +10,12 @@ const io = new Server(server);
 const PORT = process.env.PORT || 8080;
 
 app.use(express.json());
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 
 
 app.post("/", (req, res) => {
