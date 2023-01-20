@@ -38,7 +38,7 @@ io.on("connection", (socket) => {
     })
 });
 
-http.listen(PORT, (err) => {
+server.listen(PORT, (err) => {
   if (err) {
     throw Error(err);
   }
