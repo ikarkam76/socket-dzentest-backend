@@ -25,6 +25,7 @@ app.get("/", (req, res) => {
 
 io.on("connection", (socket) => {
   socket.on('comment', (msg) => {
+    console.log(msg);
         io.emit('comment', msg);
     })
 });
