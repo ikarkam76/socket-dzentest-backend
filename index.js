@@ -43,7 +43,7 @@ const start = async () => {
       }
     });
     await connectionSQL.query(
-      `CREATE TABLE IF NOT EXISTS ${DATABASE}.comments(id VARCHAR(100), user_name VARCHAR(100), email VARCHAR(100), home_page VARCHAR(100), comment TEXT, time VARCHAR(20))`,
+      `CREATE TABLE IF NOT EXISTS ${DATABASE}.comments(id VARCHAR(100), user_name VARCHAR(100), email VARCHAR(100), home_page VARCHAR(100), comment TEXT, time DATETIME)`,
       (err, result) => {
         if (err) {
           console.log(err.message);
