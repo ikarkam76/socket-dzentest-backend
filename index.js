@@ -5,7 +5,9 @@ const cors = require("cors");
 const path = require("path");
 const http = require("http");
 const { Server } = require("socket.io");
-const { instrument } = require("@socket.io/admin-ui");
+const { connectionSQL } = require("./db/connect");
+const { getCommentsController, addCommentController, addReplyController, getReplysController } = require('./controllers/controllers');
+const { createReplysTable, validationComment, validationReply } = require('./middlewars/middlewars');
 
 const PORT = process.env.PORT || 8080;
 
@@ -14,7 +16,7 @@ app.use(
   cors({
     origin: "*"
   }));
-  
+
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   next();
@@ -22,14 +24,10 @@ app.use((req, res, next) => {
 
 app.use(express.static(path.join(__dirname, "public")));
 
-
-app.post("/", (req, res) => {
-    res.send('post hello')
-});
-
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+app.get('/api', getCommentsController);
+app.post('/api',validationComment, addCommentController);
+app.post('/api/reply', createReplysTable, validationReply, addReplyController);
+app.get("/api/reply", getReplysController);
 
 const server = http.createServer(app);
 const io = new Server(server);
@@ -40,13 +38,31 @@ io.on("connection", (socket) => {
     })
 });
 
-instrument(io, {
-  auth: false,
-});
-
-server.listen(PORT, (err) => {
-  if (err) {
-    throw Error(err);
+const start = async () => {
+  try {
+    await connectionSQL.connect((err) => {
+      if (err) {
+        return console.log(err.message);
+      } else {
+        console.log("Database connected!");
+      }
+    });
+    await connectionSQL.query(
+      "CREATE TABLE IF NOT EXISTS comments_db.comments(id VARCHAR(100), user_name VARCHAR(100), email VARCHAR(100), home_page VARCHAR(100), comment TEXT, time DATETIME)",
+      (err, result) => {
+        if (err) {
+          console.log(err.message);
+        } else {
+          console.log(result);
+        }
+      }
+    );
+    await server.listen(PORT, () => {
+      console.log(`Server running. Use API on port: ${PORT}`);
+    });
+  } catch (err) {
+    console.log(err.message);
+    return process.exit(1);
   }
-  console.log(`App listening on port ${PORT}`);
-});
+};
+start();
