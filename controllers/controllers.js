@@ -24,7 +24,8 @@ const getReplysController = async (req, res, next) => {
 
 const addCommentController = async (req, res, next) => {
     const { id, user_name, email, home_page, comment, time } = req.body;
-    const getSQL = `INSERT INTO comments (id, user_name, email, home_page, comment, time) VALUES("${id}", "${user_name}", "${email}", "${home_page}", "${comment}", "${time}")`;
+  const getSQL = `INSERT INTO comments (id, user_name, email, home_page, comment, time) VALUES("${id}", "${user_name}", "${email}", "${home_page}", "${comment}", "${time}")`;
+  console.log(time, 'back');
     await connectionSQL.query(getSQL, (err, result) => {
       if (err) {
         console.log(err.message);
