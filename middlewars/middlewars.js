@@ -1,10 +1,11 @@
 const { connectionSQL } = require("../db/connect")
 const Joi = require("joi");
+const DATABASE = process.env.DATABASE;
 
 module.exports = {
   createReplysTable: async (req, res, next) => {
     await connectionSQL.query(
-      "CREATE TABLE IF NOT EXISTS comments_db.replys(comment_id VARCHAR(100), id VARCHAR(100), user_name VARCHAR(100), email VARCHAR(100), home_page VARCHAR(100), comment TEXT, time DATETIME)",
+      `CREATE TABLE IF NOT EXISTS ${DATABASE}.replys(comment_id VARCHAR(100), id VARCHAR(100), user_name VARCHAR(100), email VARCHAR(100), home_page VARCHAR(100), comment TEXT, time DATETIME)`,
       (err, result) => {
         if (err) {
           console.log(err.message);
