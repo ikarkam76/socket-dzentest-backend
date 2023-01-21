@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "start:dev": "nodemon index.js"
   },
   "keywords": [],
   "author": "ikarkam76 <ikarkam76@gmail.com>",
@@ -16,6 +17,7 @@
     "express": "^4.18.2",
     "joi": "^17.7.0",
     "mysql": "^2.18.1",
+    "nodemon": "^2.0.20",
     "socket.io": "^4.5.4"
   }
 }
