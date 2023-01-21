@@ -1,7 +1,7 @@
 const { connectionSQL } = require('../db/connect')
 
 const getCommentsController = async (req, res, next) => {
-    const getSQL = `SELECT * FROM comments`
+    const getSQL = "SELECT * FROM comments"
     await connectionSQL.query(getSQL, (err, result) => {
         if (err) {
             console.log(err.message)
@@ -12,7 +12,7 @@ const getCommentsController = async (req, res, next) => {
 }
 
 const getReplysController = async (req, res, next) => {
-  const getSQL = `SELECT * FROM replys`;
+  const getSQL = "SELECT * FROM replys";
   await connectionSQL.query(getSQL, (err, result) => {
     if (err) {
       console.log(err.message);
