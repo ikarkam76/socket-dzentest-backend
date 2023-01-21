@@ -5,12 +5,12 @@ const {
   addCommentController,
   addReplyController,
   getReplysController,
-} = require("../../server/controllers/controllers");
+} = require("../controllers/controllers");
 const {
   createReplysTable,
   validationComment,
   validationReply,
-} = require("../../server/middlewars/middlewars");
+} = require("../middlewars/middlewars");
 
 commentsRouter.get("/", getCommentsController);
 commentsRouter.post("/", validationComment, addCommentController);
