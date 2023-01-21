@@ -6,8 +6,7 @@ const path = require("path");
 const http = require("http");
 const { Server } = require("socket.io");
 const { connectionSQL } = require("./db/connect");
-const { getCommentsController, addCommentController, addReplyController, getReplysController } = require('./controllers/controllers');
-const { createReplysTable, validationComment, validationReply } = require('./middlewars/middlewars');
+const commentsRouter = require('./routes');
 
 const PORT = process.env.PORT || 8080;
 const DATABASE = process.env.DATABASE;
@@ -24,11 +23,8 @@ app.use((req, res, next) => {
 });
 
 app.use(express.static(path.join(__dirname, "public")));
+app.use('/api', commentsRouter)
 
-app.get('/api', getCommentsController);
-app.post('/api',validationComment, addCommentController);
-app.post('/api/reply', createReplysTable, validationReply, addReplyController);
-app.get("/api/reply", getReplysController);
 
 const server = http.createServer(app);
 const io = new Server(server);
