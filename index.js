@@ -5,8 +5,8 @@ const cors = require("cors");
 const path = require("path");
 const http = require("http");
 const { Server } = require("socket.io");
-const { connectionSQL } = require("./db/connect");
-const commentsRouter = require('./routes/routes');
+const { connectionSQL } = require("../server/db/connect");
+const commentsRouter = require('../server/routes/routes');
 
 const PORT = process.env.PORT || 8080;
 const DATABASE = process.env.DATABASE;

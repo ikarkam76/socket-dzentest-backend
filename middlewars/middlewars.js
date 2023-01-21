@@ -1,4 +1,4 @@
-const { connectionSQL } = require("../db/connect")
+const { connectionSQL } = require("../../server/db/connect")
 const Joi = require("joi");
 const DATABASE = process.env.DATABASE;
 

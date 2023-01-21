@@ -1,4 +1,4 @@
-const { connectionSQL } = require('../db/connect')
+const { connectionSQL } = require('../../server/db/connect')
 
 const getCommentsController = async (req, res, next) => {
     const getSQL = "SELECT * FROM comments"
