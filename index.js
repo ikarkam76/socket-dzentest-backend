@@ -6,7 +6,7 @@ const path = require("path");
 const http = require("http");
 const { Server } = require("socket.io");
 const { connectionSQL } = require("./db/connect");
-const commentsRouter = require('./routes');
+const commentsRouter = require('./routes/routes');
 
 const PORT = process.env.PORT || 8080;
 const DATABASE = process.env.DATABASE;
