@@ -29,8 +29,11 @@ const io = new Server(server);
 
 io.on("connection", (socket) => {
   socket.on('comment', (msg) => {
-        io.emit('comment', msg);
-    })
+    io.emit('comment', msg);
+  });
+  socket.on('replys', (msg) => {
+    io.emit('replys', msg);
+  });
 });
 
 const start = async () => {
