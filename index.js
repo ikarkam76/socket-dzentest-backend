@@ -2,8 +2,8 @@ require('dotenv').config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const path = require("path");
 const http = require("http");
+const multer = require('multer');
 const { Server } = require("socket.io");
 const { connectionSQL } = require("./db/connect");
 const commentsRouter = require('./routes/routes');
@@ -21,8 +21,24 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   next();
 });
-app.use('/api', commentsRouter)
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./upload");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + file.originalname);
+  },
+});
+
+const upload = multer({ storage });
+
+app.post("/api/upload", upload.single("file"), function (req, res) {
+  const file = req.file;
+  res.status(200).json(file.filename);
+});
+
+app.use('/api', commentsRouter)
 
 const server = http.createServer(app);
 const io = new Server(server);
@@ -46,7 +62,7 @@ const start = async () => {
       }
     });
     await connectionSQL.query(
-      `CREATE TABLE IF NOT EXISTS ${DATABASE}.comments(id VARCHAR(100), user_name VARCHAR(100), email VARCHAR(100), home_page VARCHAR(100), comment TEXT, time DATETIME)`,
+      `CREATE TABLE IF NOT EXISTS ${DATABASE}.comments(id VARCHAR(100), user_name VARCHAR(100), email VARCHAR(100), home_page VARCHAR(100), comment TEXT DEFAULT '', time DATETIME, CONSTRAINT comments_PK PRIMARY KEY (id))`,
       (err, result) => {
         if (err) {
           console.log(err.message);

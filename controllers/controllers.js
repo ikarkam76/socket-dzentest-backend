@@ -46,6 +46,18 @@ const addReplyController = async (req, res, next) => {
   });
 };
 
+const uploadFileController = async (req, res, next) => {
+  const { file, comment_id } = req.body;
+  const getSQL = `INSERT INTO files (comment_id, file) VALUES ("${comment_id}", "${file}")`;
+  await connectionSQL.query(getSQL, (err, result) => {
+    if (err) {
+      console.log(err.message);
+    } else {
+      return res.status(200).json({ result });
+    }
+  });
+}
 
 
-module.exports = {getCommentsController, addCommentController, addReplyController, getReplysController}
+
+module.exports = {getCommentsController, addCommentController, addReplyController, getReplysController, uploadFileController}

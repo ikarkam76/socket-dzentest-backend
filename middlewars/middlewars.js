@@ -5,7 +5,20 @@ const DATABASE = process.env.DATABASE;
 module.exports = {
   createReplysTable: async (req, res, next) => {
     await connectionSQL.query(
-      `CREATE TABLE IF NOT EXISTS ${DATABASE}.replys(comment_id VARCHAR(100), id VARCHAR(100), user_name VARCHAR(100), email VARCHAR(100), home_page VARCHAR(100), comment TEXT, time DATETIME)`,
+      `CREATE TABLE IF NOT EXISTS ${DATABASE}.replys(comment_id VARCHAR(100), id VARCHAR(100), user_name VARCHAR(100), email VARCHAR(100), home_page VARCHAR(100), comment TEXT, time DATETIME, CONSTRAINT replys_PK PRIMARY KEY (id))`,
+      (err, result) => {
+        if (err) {
+          console.log(err.message);
+        } else {
+          console.log(result);
+        }
+      }
+    );
+    next();
+  },
+  createFilesTable: async (req, res, next) => {
+    await connectionSQL.query(
+      `CREATE TABLE IF NOT EXISTS ${DATABASE}.files(comment_id VARCHAR(100), id INT UNSIGNED NOT NULL AUTO_INCREMENT NOT NULL COMMENT 'id', file BLOB, CONSTRAINT files_PK PRIMARY KEY (id))`,
       (err, result) => {
         if (err) {
           console.log(err.message);
