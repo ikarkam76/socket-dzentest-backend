@@ -3,6 +3,7 @@ const Joi = require("joi");
 module.exports = {
   validationComment: (req, res, next) => {
     const validationSchema = Joi.object({
+      id: Joi.string().required(),
       user_name: Joi.string().required(),
       email: Joi.string().email().required(),
       home_page: Joi.string(),
@@ -17,7 +18,7 @@ module.exports = {
   },
   validationReply: (req, res, next) => {
     const validationSchema = Joi.object({
-      comment_id: Joi.string().required(),
+      parentId: Joi.string().required(),
       user_name: Joi.string().required(),
       email: Joi.string().email().required(),
       home_page: Joi.string(),
