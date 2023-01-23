@@ -1,4 +1,5 @@
-const { connectionSQL } = require('../db/connect')
+const { connectionSQL } = require('../db/connect');
+const fs = require("fs").promises;
 
 const getCommentsController = async (req, res, next) => {
     const getSQL = "SELECT * FROM comments"
@@ -70,6 +71,7 @@ const addReplyController = async (req, res, next) => {
 
 const uploadFileController = async (req, res, next) => {
   const { file, parentId } = req.body;
+
   const getSQL = `INSERT INTO files (parentId, file) VALUES ("${parentId}", "${file}")`;
   await connectionSQL.query(getSQL, (err, result) => {
     if (err) {
@@ -103,4 +105,4 @@ module.exports = {
   uploadImageController,
   getFilesController,
   getImagesController,
-};
+ };

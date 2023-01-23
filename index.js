@@ -3,7 +3,6 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const http = require("http");
-const multer = require('multer');
 const { Server } = require("socket.io");
 const { connectionSQL } = require("./db/connect");
 const commentsRouter = require('./routes/routes');
@@ -16,27 +15,13 @@ app.use(
   cors({
     origin: "*"
   }));
+  app.use(express.static(path.join(__dirname, "public")));
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   next();
 });
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./upload");
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + file.originalname);
-  },
-});
-
-const upload = multer({ storage });
-
-app.post("/api/upload", upload.single("file"), function (req, res) {
-  const file = req.file;
-  res.status(200).json(file.filename);
-});
 
 app.use('/api', commentsRouter)
 
