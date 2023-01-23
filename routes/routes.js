@@ -6,18 +6,22 @@ const {
   addReplyController,
   getReplysController,
   uploadFileController,
+  uploadImageController,
+  getFilesController,
+  getImagesController,
 } = require("../controllers/controllers");
 const {
-  createReplysTable,
   validationComment,
   validationReply,
-  createFilesTable,
 } = require("../middlewars/middlewars");
 
 commentsRouter.get("/", getCommentsController);
-commentsRouter.post("/", validationComment, addCommentController);
-commentsRouter.post("/reply", createReplysTable, validationReply, addReplyController);
 commentsRouter.get("/reply", getReplysController);
-commentsRouter.post('/files', createFilesTable, uploadFileController)
+commentsRouter.get("/files", getFilesController);
+commentsRouter.get("/images", getImagesController);
+commentsRouter.post("/", validationComment, addCommentController);
+commentsRouter.post("/reply", validationReply, addReplyController);
+commentsRouter.post('/files', uploadFileController);
+commentsRouter.post("/images", uploadImageController);
 
 module.exports = commentsRouter;

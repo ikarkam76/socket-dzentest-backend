@@ -22,9 +22,31 @@ const getReplysController = async (req, res, next) => {
   });
 };
 
+const getFilesController = async (req, res, next) => {
+  const getSQL = "SELECT * FROM files";
+  await connectionSQL.query(getSQL, (err, result) => {
+    if (err) {
+      console.log(err.message);
+    } else {
+      return res.status(200).json({ result });
+    }
+  });
+};
+
+const getImagesController = async (req, res, next) => {
+  const getSQL = "SELECT * FROM images";
+  await connectionSQL.query(getSQL, (err, result) => {
+    if (err) {
+      console.log(err.message);
+    } else {
+      return res.status(200).json({ result });
+    }
+  });
+};
+
 const addCommentController = async (req, res, next) => {
-    const { id, user_name, email, home_page, comment, time } = req.body;
-  const getSQL = `INSERT INTO comments (id, user_name, email, home_page, comment, time) VALUES("${id}", "${user_name}", "${email}", "${home_page}", "${comment}", "${time}")`;
+    const { user_name, email, home_page, comment, time } = req.body;
+  const getSQL = `INSERT INTO comments ( user_name, email, home_page, comment, time) VALUES( "${user_name}", "${email}", "${home_page}", "${comment}", "${time}")`;
     await connectionSQL.query(getSQL, (err, result) => {
       if (err) {
         console.log(err.message);
@@ -35,8 +57,8 @@ const addCommentController = async (req, res, next) => {
 }
 
 const addReplyController = async (req, res, next) => {
-  const {comment_id, id, user_name, email, home_page, comment, time } = req.body;
-  const getSQL = `INSERT INTO replys (comment_id, id, user_name, email, home_page, comment, time) VALUES("${comment_id}", "${id}", "${user_name}", "${email}", "${home_page}", "${comment}", "${time}")`;
+  const {parentId, user_name, email, home_page, comment, time } = req.body;
+  const getSQL = `INSERT INTO replys (parentId, user_name, email, home_page, comment, time) VALUES("${parentId}", "${user_name}", "${email}", "${home_page}", "${comment}", "${time}")`;
   await connectionSQL.query(getSQL, (err, result) => {
     if (err) {
       console.log(err.message);
@@ -47,8 +69,8 @@ const addReplyController = async (req, res, next) => {
 };
 
 const uploadFileController = async (req, res, next) => {
-  const { file, comment_id } = req.body;
-  const getSQL = `INSERT INTO files (comment_id, file) VALUES ("${comment_id}", "${file}")`;
+  const { file, parentId } = req.body;
+  const getSQL = `INSERT INTO files (parentId, file) VALUES ("${parentId}", "${file}")`;
   await connectionSQL.query(getSQL, (err, result) => {
     if (err) {
       console.log(err.message);
@@ -56,8 +78,29 @@ const uploadFileController = async (req, res, next) => {
       return res.status(200).json({ result });
     }
   });
-}
+};
+
+const uploadImageController = async (req, res, next) => {
+  const { image, parentId } = req.body;
+  const getSQL = `INSERT INTO images (parentId, image) VALUES ("${parentId}", "${image}")`;
+  await connectionSQL.query(getSQL, (err, result) => {
+    if (err) {
+      console.log(err.message);
+    } else {
+      return res.status(200).json({ result });
+    }
+  });
+};
 
 
 
-module.exports = {getCommentsController, addCommentController, addReplyController, getReplysController, uploadFileController}
+module.exports = {
+  getCommentsController,
+  addCommentController,
+  addReplyController,
+  getReplysController,
+  uploadFileController,
+  uploadImageController,
+  getFilesController,
+  getImagesController,
+};
