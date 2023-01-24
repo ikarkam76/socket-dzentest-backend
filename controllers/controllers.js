@@ -1,5 +1,8 @@
 const { connectionSQL } = require('../db/connect');
-const fs = require("fs").promises;
+const fs = require("fs");
+const path = require("path");
+
+const uploadDir = path.resolve("./images");
 
 const getCommentsController = async (req, res, next) => {
     const getSQL = "SELECT * FROM comments"
@@ -24,25 +27,7 @@ const getReplysController = async (req, res, next) => {
 };
 
 const getFilesController = async (req, res, next) => {
-  const getSQL = "SELECT * FROM files";
-  await connectionSQL.query(getSQL, (err, result) => {
-    if (err) {
-      console.log(err.message);
-    } else {
-      return res.status(200).json({ result });
-    }
-  });
-};
-
-const getImagesController = async (req, res, next) => {
-  const getSQL = "SELECT * FROM images";
-  await connectionSQL.query(getSQL, (err, result) => {
-    if (err) {
-      console.log(err.message);
-    } else {
-      return res.status(200).json({ result });
-    }
-  });
+  return res.status(200).sendFile(`${uploadDir}/1674584885614doroga.jpg`);
 };
 
 const addCommentController = async (req, res, next) => {
@@ -104,5 +89,6 @@ module.exports = {
   uploadFileController,
   uploadImageController,
   getFilesController,
-  getImagesController,
+  // getImagesController,
+  // getOneFileController,
  };

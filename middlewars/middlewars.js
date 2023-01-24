@@ -1,4 +1,8 @@
 const Joi = require("joi");
+const Jimp = require("jimp");
+const path = require("path");
+
+const uploadDir = path.resolve("./images");
 
 module.exports = {
   validationComment: (req, res, next) => {
@@ -31,4 +35,24 @@ module.exports = {
     }
     next();
   },
+  updateFile: (req, res, next) => {
+    const { filename } = req.file;
+    return res.status(200).json({ file: filename });
+    next();
+  },
+  updateImage: (req, res, next) => {
+  const { filename } = req.file;
+  Jimp.read(`${uploadDir}/${filename}`)
+    .then((image) => {
+      return image
+        .scaleToFit(320, 240)
+        .quality(60)
+        .write(`${uploadDir}/${filename}`);
+    })
+    .catch((err) => {
+      console.error(err.message);
+    });
+    return res.status(200).json({ image: filename });
+  next();
+},
 };

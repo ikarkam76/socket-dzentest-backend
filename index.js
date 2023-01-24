@@ -68,7 +68,7 @@ const start = async () => {
       }
     );
     await connectionSQL.query(
-      `CREATE TABLE IF NOT EXISTS ${DATABASE}.images(id INT UNSIGNED NOT NULL AUTO_INCREMENT, parentId VARCHAR(100) NOT NULL, image BLOB NOT NULL, CONSTRAINT images_id_pk PRIMARY KEY (id), CONSTRAINT images_parentId_fk FOREIGN KEY (parentId) REFERENCES comments(id))`,
+      `CREATE TABLE IF NOT EXISTS ${DATABASE}.images(id INT UNSIGNED NOT NULL AUTO_INCREMENT, parentId VARCHAR(100) NOT NULL, image TEXT NOT NULL, CONSTRAINT images_id_pk PRIMARY KEY (id), CONSTRAINT images_parentId_fk FOREIGN KEY (parentId) REFERENCES comments(id))`,
       (err, result) => {
         if (err) {
           console.log(err.message);
@@ -78,7 +78,7 @@ const start = async () => {
       }
     );
     await connectionSQL.query(
-      `CREATE TABLE IF NOT EXISTS ${DATABASE}.files(id INT UNSIGNED NOT NULL AUTO_INCREMENT, parentId VARCHAR(100) NOT NULL, file BLOB NOT NULL, CONSTRAINT files_id_pk PRIMARY KEY (id), CONSTRAINT files_parentId_fk FOREIGN KEY (parentId) REFERENCES comments(id))`,
+      `CREATE TABLE IF NOT EXISTS ${DATABASE}.files(id INT UNSIGNED NOT NULL AUTO_INCREMENT, parentId VARCHAR(100) NOT NULL, file TEXT NOT NULL, CONSTRAINT files_id_pk PRIMARY KEY (id), CONSTRAINT files_parentId_fk FOREIGN KEY (parentId) REFERENCES comments(id))`,
       (err, result) => {
         if (err) {
           console.log(err.message);

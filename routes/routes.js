@@ -8,25 +8,24 @@ const {
   uploadFileController,
   uploadImageController,
   getFilesController,
-  getImagesController,
 } = require("../controllers/controllers");
 const {
   validationComment,
   validationReply,
+  updateImage,
+  updateFile,
 } = require("../middlewars/middlewars");
 const {uploadImage} = require('../services/imageUpload');
 const { uploadTxtFile } = require("../services/fileUpload");
-const { updateImage } = require("../services/imageResize");
 
-commentsRouter.get("/", getCommentsController);
-commentsRouter.get("/reply", getReplysController);
+commentsRouter.get("/", getCommentsController);//
+commentsRouter.get("/reply", getReplysController);//
 commentsRouter.get("/files", getFilesController);
-commentsRouter.get("/images", getImagesController);
-commentsRouter.post("/", validationComment, addCommentController);
-commentsRouter.post("/reply", validationReply, addReplyController);
-commentsRouter.post('/files', uploadFileController);
-commentsRouter.post("/images", uploadImageController);
-commentsRouter.post("/upload/image", uploadImage.single("file"), updateImage);
-commentsRouter.post("/upload/file", uploadTxtFile.single("file"));
+commentsRouter.post("/", validationComment, addCommentController);//
+commentsRouter.post("/reply", validationReply, addReplyController);//
+commentsRouter.post('/files', uploadFileController);//
+commentsRouter.post("/images", uploadImageController);//
+commentsRouter.post("/upload/image", uploadImage.single("file"), updateImage);//
+commentsRouter.post("/upload/file", uploadTxtFile.single("file"), updateFile);//
 
 module.exports = commentsRouter;
