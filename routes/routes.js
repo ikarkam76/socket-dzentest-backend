@@ -21,7 +21,7 @@ const { uploadTxtFile } = require("../services/fileUpload");
 
 commentsRouter.get("/", getCommentsController);
 commentsRouter.get("/reply", getReplysController);
-commentsRouter.post("/files", getFilesController);
+commentsRouter.post("/get/files", getFilesController);
 commentsRouter.get('/list', getFilesListController)
 commentsRouter.post("/", validationComment, addCommentController);
 commentsRouter.post("/reply", validationReply, addReplyController);
