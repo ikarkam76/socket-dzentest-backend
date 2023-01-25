@@ -8,6 +8,7 @@ const {
   uploadFileController,
   uploadImageController,
   getFilesController,
+  getFilesListController,
 } = require("../controllers/controllers");
 const {
   validationComment,
@@ -18,14 +19,15 @@ const {
 const {uploadImage} = require('../services/imageUpload');
 const { uploadTxtFile } = require("../services/fileUpload");
 
-commentsRouter.get("/", getCommentsController);//
-commentsRouter.get("/reply", getReplysController);//
-commentsRouter.get("/files", getFilesController);
-commentsRouter.post("/", validationComment, addCommentController);//
-commentsRouter.post("/reply", validationReply, addReplyController);//
-commentsRouter.post('/files', uploadFileController);//
-commentsRouter.post("/images", uploadImageController);//
-commentsRouter.post("/upload/image", uploadImage.single("file"), updateImage);//
-commentsRouter.post("/upload/file", uploadTxtFile.single("file"), updateFile);//
+commentsRouter.get("/", getCommentsController);
+commentsRouter.get("/reply", getReplysController);
+commentsRouter.post("/files", getFilesController);
+commentsRouter.get('/list', getFilesListController)
+commentsRouter.post("/", validationComment, addCommentController);
+commentsRouter.post("/reply", validationReply, addReplyController);
+commentsRouter.post('/files', uploadFileController);
+commentsRouter.post("/images", uploadImageController);
+commentsRouter.post("/upload/image", uploadImage.single("file"), updateImage);
+commentsRouter.post("/upload/file", uploadTxtFile.single("file"), updateFile);
 
 module.exports = commentsRouter;

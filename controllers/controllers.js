@@ -26,8 +26,14 @@ const getReplysController = async (req, res, next) => {
   });
 };
 
+const getFilesListController = async (req, res, next) => {
+  const files = fs.readdirSync(uploadDir);
+  return res.status(200).json(files)
+}
+
 const getFilesController = async (req, res, next) => {
-  return res.status(200).sendFile(`${uploadDir}/1674584885614doroga.jpg`);
+  const {name} = req.body
+  return res.status(200).sendFile(`${uploadDir}/${name}`);
 };
 
 const addCommentController = async (req, res, next) => {
@@ -89,6 +95,5 @@ module.exports = {
   uploadFileController,
   uploadImageController,
   getFilesController,
-  // getImagesController,
-  // getOneFileController,
+  getFilesListController,
  };
