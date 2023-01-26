@@ -10,7 +10,7 @@ const getCommentsController = async (req, res, next) => {
         if (err) {
             console.log(err.message)
         } else {
-            return res.status(200).json({result})
+          return res.status(200).json({ result });
         }
     })
 }
@@ -38,7 +38,7 @@ const getFilesController = async (req, res, next) => {
 
 const addCommentController = async (req, res, next) => {
     const {id, user_name, email, home_page, comment, time } = req.body;
-  const getSQL = `INSERT INTO comments ( id, user_name, email, home_page, comment, time) VALUES("${id}", "${user_name}", "${email}", "${home_page}", "${comment}", "${time}")`;
+  const getSQL = `INSERT INTO comments ( id, user_name, email, home_page, comment, time) VALUES("${id}", "${uploadDir}", "${email}", "${home_page}", "${comment}", "${time}")`;
     await connectionSQL.query(getSQL, (err, result) => {
       if (err) {
         console.log(err.message);
