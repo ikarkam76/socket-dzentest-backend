@@ -69,7 +69,7 @@ const uploadFileController = async (req, res, next) => {
           if (err) {
             console.log(err.message);
           } else {
-            console.log(result);
+            return res.status(200).json({ result });
           }
         });
   } catch (error) {
@@ -81,13 +81,18 @@ const uploadImageController = async (req, res, next) => {
   const { parentId } = req.body;
   const { filename } = req.file;
   const getSQL = `INSERT INTO images (parentId, image) VALUES ("${parentId}", "${filename}")`;
-  await connectionSQL.query(getSQL, (err, result) => {
-    if (err) {
-      console.log(err.message);
-    } else {
-      return res.status(200).json({ result });
+    try {
+      await connectionSQL.query(getSQL, (err, result) => {
+        if (err) {
+          console.log(err.message);
+        } else {
+          return res.status(200).json({ result });
+        }
+      });
+    } catch (error) {
+      console.log(error);
     }
-  });
+
 };
 
 
