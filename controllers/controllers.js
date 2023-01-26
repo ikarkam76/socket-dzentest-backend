@@ -27,12 +27,8 @@ const getReplysController = async (req, res, next) => {
 };
 
 const getFilesListController = async (req, res, next) => {
-  try {
     const files = fs.readdirSync(uploadDir);
-    return res.status(200).json({files, uploadDir});
-  } catch (error) {
-    console.log(error);
-  }
+    return res.status(200).json({files});
 }
 
 const getFilesController = async (req, res, next) => {
