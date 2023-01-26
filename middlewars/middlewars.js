@@ -41,7 +41,7 @@ module.exports = {
       const image = await Jimp.read(`${uploadDir}/${filename}`);
       await image.scaleToFit(320, 240).quality(60).write(`${uploadDir}/${filename}`);
     } catch (error) {
-      return res.status(400).json({ message: error.details });
+      return res.status(400).json({ message: "tut jimp error" });
     }
     next();
   },
