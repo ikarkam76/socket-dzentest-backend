@@ -2,7 +2,7 @@ const { connectionSQL } = require('../db/connect');
 const fs = require("fs");
 const path = require("path");
 
-const uploadDir = path.resolve("./images");
+const uploadDir = path.resolve("public/images");
 
 const getCommentsController = async (req, res, next) => {
     const getSQL = "SELECT * FROM comments"
@@ -27,8 +27,12 @@ const getReplysController = async (req, res, next) => {
 };
 
 const getFilesListController = async (req, res, next) => {
-  const files = fs.readdirSync(uploadDir);
-  return res.status(200).json(files)
+  try {
+    const files = await fs.readdirSync(uploadDir);
+    return res.status(200).json({files, uploadDir});
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 const getFilesController = async (req, res, next) => {
