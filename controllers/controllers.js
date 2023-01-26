@@ -38,7 +38,7 @@ const getFilesController = async (req, res, next) => {
 
 const addCommentController = async (req, res, next) => {
     const {id, user_name, email, home_page, comment, time } = req.body;
-  const getSQL = `INSERT INTO comments ( id, user_name, email, home_page, comment, time) VALUES("${id}", "${uploadDir}", "${email}", "${home_page}", "${comment}", "${time}")`;
+  const getSQL = `INSERT INTO comments ( id, user_name, email, home_page, comment, time) VALUES("${id}", "${user_name}", "${email}", "${home_page}", "${comment}", "${time}")`;
     await connectionSQL.query(getSQL, (err, result) => {
       if (err) {
         console.log(err.message);
@@ -61,9 +61,9 @@ const addReplyController = async (req, res, next) => {
 };
 
 const uploadFileController = async (req, res, next) => {
-  const { file, parentId } = req.body;
-
-  const getSQL = `INSERT INTO files (parentId, file) VALUES ("${parentId}", "${file}")`;
+  const { parentId } = req.body;
+  const { filename } = req.file;
+  const getSQL = `INSERT INTO files (parentId, file) VALUES ("${parentId}", "${filename}")`;
   await connectionSQL.query(getSQL, (err, result) => {
     if (err) {
       console.log(err.message);
@@ -74,8 +74,9 @@ const uploadFileController = async (req, res, next) => {
 };
 
 const uploadImageController = async (req, res, next) => {
-  const { image, parentId } = req.body;
-  const getSQL = `INSERT INTO images (parentId, image) VALUES ("${parentId}", "${image}")`;
+  const { parentId } = req.body;
+  const { filename } = req.file;
+  const getSQL = `INSERT INTO images (parentId, image) VALUES ("${parentId}", "${filename}")`;
   await connectionSQL.query(getSQL, (err, result) => {
     if (err) {
       console.log(err.message);
