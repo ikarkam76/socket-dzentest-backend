@@ -64,13 +64,17 @@ const uploadFileController = async (req, res, next) => {
   const { parentId } = req.body;
   const { filename } = req.file;
   const getSQL = `INSERT INTO files (parentId, file) VALUES ("${parentId}", "${filename}")`;
-  await connectionSQL.query(getSQL, (err, result) => {
-    if (err) {
-      console.log(err.message);
-    } else {
-      return res.status(200).json({ result });
-    }
-  });
+  try {
+    await connectionSQL.query(getSQL, (err, result) => {
+      if (err) {
+        console.log(err.message);
+      } else {
+        return res.status(200).json({ result });
+      }
+    });
+  } catch (error) {
+        return res.json({error})
+  }
 };
 
 const uploadImageController = async (req, res, next) => {
