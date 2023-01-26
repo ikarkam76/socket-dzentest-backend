@@ -2,7 +2,7 @@ const Joi = require("joi");
 const Jimp = require("jimp");
 const path = require("path");
 
-const uploadDir = path.resolve("images");
+const uploadDir = path.resolve("public/images");
 
 module.exports = {
   validationComment: (req, res, next) => {
