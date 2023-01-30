@@ -1,8 +1,6 @@
 const Joi = require("joi");
-const Jimp = require("jimp");
-const path = require("path");
+const { bucket } = require("../services/storageService");
 
-const uploadDir = path.resolve("public/images/");
 
 module.exports = {
   validationComment: (req, res, next) => {
@@ -35,14 +33,17 @@ module.exports = {
     }
     next();
   },
-  updateImage: async (req, res, next) => {
-    const { filename } = req.file;
+  uploadToStorage: (req, res, next) => {
     try {
-      const image = await Jimp.read(`${uploadDir}/${filename}`);
-      await image.scaleToFit(320, 240).quality(60).write(`${uploadDir}/${filename}`);
+      const blob = bucket.file(req.file.originalname);
+      const blobStream = blob.createWriteStream();
+      blobStream.on("finish", () => {
+        return;
+      });
+      blobStream.end(req.file.buffer);
     } catch (error) {
-      return res.status(400).json({ message: "tut jimp error" });
-    }
+      return res.status(500).json({message: error.message});
+    };
     next();
   },
 };

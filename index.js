@@ -11,13 +11,9 @@ const commentsRouter = require('./routes/routes');
 const PORT = process.env.PORT || 8080;
 const DATABASE = process.env.DATABASE;
 
-app.use(express.json({ extended: true }));
-app.use(
-  cors({
-    origin: "*"
-  }));
+app.use(express.json());
+app.use(cors());
 app.use("/public", express.static(path.join(__dirname, "public")));
-
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   next();
